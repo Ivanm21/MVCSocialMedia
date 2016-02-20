@@ -1,0 +1,51 @@
+﻿@model MVCSocialMedia.Entities.Post
+
+<div class="well-sm">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-4">
+                <label>@(Model.author.UserName)</label>
+                <label>@(Model.CreationTime)</label>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-sm-4" style="width:200px; max-height:200px;">
+                @if (Model.Img != null)
+                {
+                    <img class="img-thumbnail" alt="Bootstrap Image Preview"
+                         src="@Url.Action("GetPostImage", "Home", new { postid = Model.PostId })" />
+                }
+            </div>
+            <div class="col-sm-6">
+                <label>@(Model.Content)</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                @using (Html.BeginForm("LikePost", "Home", FormMethod.Post))
+                {
+                    @Html.Hidden("postId", Model.PostId)
+                    @*@Html.Hidden("ownerId",post.wall.AppUserId)*@
+                    <input class="btn btn-sm" type="submit" value="Like" />
+                }
+                <lavel>@(Model.likes.Count)</lavel>
+            </div>
+            @if (Model.author.Id == Session["userId"].ToString() || Model.wall.AppUserId == Session["userId"].ToString())
+            {
+                <div class="col-sm-6">
+                    @using (Html.BeginForm("DeletePost", "Home", FormMethod.Post))
+                    {
+                        @Html.Hidden("postid", Model.PostId)
+                        @Html.Hidden("ownerId", Model.wall.AppUserId)
+                        <input class="btn btn-sm" type="submit" value="Delete" />
+                    }
+
+                </div>
+
+            }
+        </div>
+
+
+    </div>
+</div>

@@ -1,0 +1,22 @@
+﻿@model MVCSocialMedia.Entities.AppUser
+
+<div class="well">
+    @if (Model.Avatar != null)
+    {
+        <div class="pull-left" style="margin-right: 10px">
+            <img class="img-thumbnail" width="75" height="75" src="@Url.Action("GetImage", "Home", new { userid = Model.Id})" />
+        </div>
+    }
+
+    <h3>
+        <strong>@Model.Name , @Model.Surname</strong>
+        <span class="pull-right label label-primary">@Model.Country</span>
+    </h3>
+    @using (Html.BeginForm("Index", "Home"))
+    {
+        <div class="pull-right">
+            @Html.Hidden("userId",Model.Id)
+            <input type="submit" class="btn btn-success" value="Read More" />
+        </div>
+    }
+</div>

@@ -1,0 +1,11 @@
+﻿@model MVCSocialMedia.Models.UserListModel
+
+@{
+    ViewBag.Title = "Users";
+}
+
+@foreach (var p in Model.Users)
+{
+    @Html.Partial("UserSummary", p)
+}
+

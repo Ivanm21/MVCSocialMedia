@@ -1,0 +1,92 @@
+﻿@model MVCSocialMedia.Models.UserModel
+@{
+    ViewBag.Title = "Edit user profile";
+}
+<div class="panel-heading">
+    <h3>@Model.Name, @Model.Surname</h3>
+</div>
+
+<div class="panel">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+            @using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="col-md-6">
+                    @if (Model.Avatar == null)
+                    {
+                        <div class="form-control-static">No Image</div>
+
+                    }
+                    else
+                    {
+                        <img class="img-responsive" alt="Bootstrap Image Preview" 
+                             src="@Url.Action("GetImage", "Home", Model)" />
+                    }
+                    <div class="form-group">
+                        <div style="position:relative;">
+                            <label>Image</label>
+                            <a class='btn' href='javascript:;'>
+                                Choose File...
+                                <input type="file" name="Image" size="40"
+                                       style="position:absolute;z-index:2;top:0;
+                                left:0;filter: alpha(opacity=0); opacity:0;
+                                background-color:transparent;color:transparent;"
+                                       onchange='$("#upload-file-info").html($(this).val());'>
+                            </a>
+                            <span class='label label-info' id="upload-file-info"></span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                    <div class="panel-body">
+                        <div class="col-md-6">
+
+
+                            @Html.HiddenFor(m => m.UserId)
+                            @foreach (var property in ViewData.ModelMetadata.Properties)
+                            {
+                                switch (property.PropertyName)
+                                {
+                                    case "UserId":
+                                    case "ImageMimeType":
+                                    case "Avatar":
+                                    case "Wall":
+                                        // do nothing
+                                        break;
+                                    default:
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>@(property.DisplayName ?? property.PropertyName)</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+
+                                            @Html.ValidationMessage(property.PropertyName)
+                                        </div>
+                                        break;
+                                }
+                            }
+
+                        </div>
+
+                    </div>
+                <div class="panel-footer">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+
+                </div>
+
+                    }
+            </div>
+        </div>
+    </div>
+
+    
+
+</div>

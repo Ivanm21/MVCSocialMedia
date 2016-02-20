@@ -1,0 +1,111 @@
+﻿@model MVCSocialMedia.Models.UserModel
+@{
+    ViewBag.Title = "Home";
+}
+
+
+
+
+<div class="panel-heading">
+    <h3>@Model.Name, @Model.Surname</h3>
+</div>
+
+<div class="well">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.HiddenFor(m => m.UserId)
+                        @if (Model.Avatar == null)
+                        {
+                            <div class="form-control-static">No Image</div>
+
+                        }
+                        else
+                        {
+                            <img class="img-responsive"  alt="Bootstrap Image Preview" 
+                                 src="@Url.Action("GetImage", "Home", new { userid = Model.UserId })" />
+                        }
+                    </div>
+                    <div class="col-md-6">
+
+                        @foreach (var property in ViewData.ModelMetadata.Properties)
+                        {
+                            switch (property.PropertyName)
+                            {
+                                case "UserId":
+                                case "ImageMimeType":
+                                case "Avatar":
+                                case "Wall":
+                                case "Name":
+                                case "Surname":
+
+                                    // do nothing
+                                    break;
+                                default:
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>@(property.DisplayName ?? property.PropertyName)</label>
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                @Html.Display(property.PropertyName, null, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    break;
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+        <a href="@Url.Action("Edit", "Home")">Edit</a>
+        
+    </div>
+</div>
+
+<div class="well">
+    @using (Html.BeginForm("AddPost", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
+        <div class="form-group">
+            @Html.HiddenFor(m => m.UserId)
+            @Html.TextArea("content", null, new { @class = "form-control" , rows = "5"})
+           
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div style="position:relative;">
+                        <label>Upload Image</label>
+                        <a class='btn' href='javascript:;'>
+                            Choose File...
+                            <input type="file" name="Image" size="40"
+                                   style="position:absolute;z-index:2;top:0;
+                                left:0;filter: alpha(opacity=0); opacity:0;
+                                background-color:transparent;color:transparent;"
+                                   onchange='$("#upload-file-info").html($(this).val());'>
+                        </a>
+                        <span class='label label-info' id="upload-file-info"></span>
+                    </div>
+                    <input type="submit" value="Post" class="btn btn-primary" />
+                </div>
+
+            </div>
+
+
+        </div>
+    }
+</div>
+
+    @foreach (var post in Model.Wall.posts)
+    {
+        @Html.Partial("PostSummary", post)
+    }
