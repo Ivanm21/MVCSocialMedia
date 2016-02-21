@@ -69,7 +69,7 @@ namespace MVCSocialMedia.Controllers
             }
 
             //new comment
-            ModelState.AddModelError("", "Your email is invalid");
+            ModelState.AddModelError("", "Your email is invalid, please enter correct email - second branch");
             return View();
         }
 
