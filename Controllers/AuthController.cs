@@ -69,7 +69,7 @@ namespace MVCSocialMedia.Controllers
             }
 
             //new comment
-            ModelState.AddModelError("", "Invalid email or password");
+            ModelState.AddModelError("", "Your email is invalid");
             return View();
         }
 
