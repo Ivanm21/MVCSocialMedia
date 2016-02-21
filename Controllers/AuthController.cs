@@ -68,7 +68,7 @@ namespace MVCSocialMedia.Controllers
                 return Redirect(GetRedirectUrl(model.ReturnUrl));
             }
 
-
+            //new comment
             ModelState.AddModelError("", "Invalid email or password");
             return View();
         }
