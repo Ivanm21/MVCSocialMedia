@@ -12,7 +12,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity.Owin;
-
+using System.Diagnostics.Contracts;
 
 namespace MVCSocialMedia.Concrete
 {
@@ -112,6 +112,16 @@ namespace MVCSocialMedia.Concrete
 
 
              context.SaveChanges();
+        }
+
+        public Post GetPost(Guid postId)
+        {
+            Contract.Ensures(postId != null, "PostId is NULL");
+            Contract.Ensures(context.Posts.Find(postId) != null);
+
+            Post post = context.Posts.Find(postId);
+
+            return post;
         }
          
 

@@ -75,6 +75,7 @@
     {
 
         <div class="form-group">
+            @Html.Hidden("ReturnUrl", Request.RawUrl)
             @Html.HiddenFor(m => m.UserId)
             @Html.TextArea("content", null, new { @class = "form-control" , rows = "5"})
            

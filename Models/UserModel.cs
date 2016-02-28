@@ -23,6 +23,8 @@ namespace MVCSocialMedia.Models
         public string ImageMimeType { get; set; }
         public Wall Wall { get; set; }
 
+        public string ReturnUrl { get; set; }
+
         public UserModel() { }
 
         public UserModel(AppUser user)

@@ -24,6 +24,6 @@ namespace MVCSocialMedia.Abstract
         void AddPost(Post post);
         void DeletePost(Guid postid, string ownerId);
         void LikePost(Guid postId, string userId);
-
+        Post GetPost(Guid postId);
     }
 }

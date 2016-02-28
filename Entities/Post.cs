@@ -16,7 +16,7 @@ namespace MVCSocialMedia.Entities
         public virtual Wall wall { get; set; }
         public virtual AppUser author { get; set; }
         public virtual ICollection<Like> likes {get;set;}
-
+        
         public Post()
         {
             CreationTime = DateTime.Now;

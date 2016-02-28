@@ -106,7 +106,7 @@ namespace MVCSocialMedia.Controllers
         }
 
         [HttpPost]
-        public RedirectToRouteResult AddPost(UserModel user, string content, HttpPostedFileBase image = null)
+        public RedirectResult AddPost(UserModel user, string content, HttpPostedFileBase image = null )
         {
             var User = repository.FindUserById(user.UserId);
             var Post = new Post() { author = User, Content = content, wall = User.wall };
@@ -120,32 +120,49 @@ namespace MVCSocialMedia.Controllers
 
              repository.AddPost(Post);
 
-            return  RedirectToAction("Index","Home");
-
-
+            if (!Url.IsLocalUrl(user.ReturnUrl))
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                return Redirect(user.ReturnUrl);
+            }
+         
         }
 
         [HttpPost]
-        public RedirectToRouteResult DeletePost(Guid postId, string ownerId)
+        public RedirectResult DeletePost(Guid postId, string ownerId, string returnUrl)
         {
             if (postId != null)
             {
                  repository.DeletePost(postId, ownerId);
             }
 
-            return RedirectToAction("Index", "Home");
+            if (!Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect("/");
+            }
+            else
+            {
+                return Redirect(returnUrl);
+            }
+
         }
 
-        [HttpPost]
-        public RedirectToRouteResult LikePost(Guid postId)
-        {
+       
+        [ValidateInput(false)]
+        public JsonResult LikePost(string postId)
+         {
             if(postId != null)
             {
                 var userId = User.Identity.GetUserId();
-                repository.LikePost(postId, userId);
+                repository.LikePost(Guid.Parse(postId), userId);
             }
-
-            return RedirectToAction("Index", "Home");
+            Post post = repository.GetPost(Guid.Parse(postId));
+            int likesCount = post.likes.Count;
+            return Json(likesCount);
+            
         }
 
         public FileContentResult GetImage(string userid)

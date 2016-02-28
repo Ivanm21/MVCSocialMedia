@@ -12,11 +12,11 @@
         <strong>@Model.Name , @Model.Surname</strong>
         <span class="pull-right label label-primary">@Model.Country</span>
     </h3>
-    @using (Html.BeginForm("Index", "Home"))
-    {
+   
         <div class="pull-right">
-            @Html.Hidden("userId",Model.Id)
-            <input type="submit" class="btn btn-success" value="Read More" />
+            @Html.ActionLink("Read More", "Index","Home", new { userId  = Model.Id}, new { @class = "btn btn-success" })
+            @*<input type="submit" class="btn btn-success" value="Read More" />*@
         </div>
-    }
+    
 </div>
+ 
