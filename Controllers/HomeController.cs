@@ -154,13 +154,16 @@ namespace MVCSocialMedia.Controllers
         [ValidateInput(false)]
         public JsonResult LikePost(string postId)
          {
-            if(postId != null)
+            int likesCount = 0;
+            if (postId != null)
             {
                 var userId = User.Identity.GetUserId();
                 repository.LikePost(Guid.Parse(postId), userId);
+                Post post = repository.GetPost(Guid.Parse(postId));
+                likesCount = post.likes.Count;
             }
-            Post post = repository.GetPost(Guid.Parse(postId));
-            int likesCount = post.likes.Count;
+            
+
             return Json(likesCount);
             
         }

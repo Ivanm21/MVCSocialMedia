@@ -21,6 +21,40 @@
                 <label>@(Model.Content)</label>
             </div>
         </div>
+        <script type="text/javascript">
+
+
+            function postFunction() {
+                $.ajax({
+                    url: "@Url.Action("LikePost", "Home")",
+                    type: "POST",
+                    data: getFormData(),
+                    dataType: "json",
+                    success: $(document).on("change", "@Model.PostId/likes", function (data) {
+                                $(this).html(data);
+
+                                }),
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            }
+
+
+                function getFormData() {
+                    //Convert the form data to a javascript object
+                    var dataToSubmit = {
+                        postId: "@Model.PostId",
+
+                    };
+
+                    return dataToSubmit;
+                }
+
+
+        </script>
+        
+
         <div class="row">
             <div class="col-sm-4">
                 @*@using (Html.BeginForm("LikePost", "Home", FormMethod.Post))
@@ -28,42 +62,13 @@
                     @Html.Hidden("returnUrl", Request.RawUrl)
                     @Html.Hidden("postId", Model.PostId)*@
                     @*@Html.Hidden("ownerId",post.wall.AppUserId)*@
-                    <input type="button" id="@Model.PostId.ToString() likeButton" class="btn btn-sm" value="Like" />
+                <button id="@Model.PostId.ToString()/likeButton" class="btn btn-sm" value="Like" onclick="postFunction()">Like</button>
+                    @*<input type="submit" id="@Model.PostId.ToString() likeButton" class="btn btn-sm" value="Like" />*@
                 @*}*@
-                <lavel id="@Model.PostId.ToString() likes">@(Model.likes.Count)</lavel>
+                <label id="@Model.PostId/likes">@(Model.likes.Count)</label>
             </div>
 
-            <script type="text/javascript">
-                $(function () {
-
-                    $("#@Model.PostId.ToString() likeButton").click(function (e) {
-                        $.ajax({
-                            url: '@Url.Action("LikePost", "Home")',
-                            type: 'POST',
-                            data: getFormData(),
-                            dataType: 'json',
-                            success: function(){
-                                $("#@Model.PostId.ToString() likes").text(data);
-                            },
-                            error: function () {
-                                alert("error");
-                            }
-                        });
-                    });
-                });
-
-                function getFormData() {
-                    //Convert the form data to a javascript object
-                    var dataToSubmit = {
-                        postId: '@Model.PostId',
-                        
-                    };
-
-                    return dataToSubmit;
-                }
-
-
-            </script>
+          
 
 
             @if (Model.author.Id == Session["userId"].ToString() || Model.wall.AppUserId == Session["userId"].ToString())
