@@ -16,6 +16,7 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6">
+                        <button id="hh" style="display:none"></button>
                         @Html.HiddenFor(m => m.UserId)
                         @if (Model.Avatar == null)
                         {
@@ -115,3 +116,40 @@
     {
         @Html.Partial("PostSummary", post)
     }
+
+<script type="text/javascript">
+
+
+            function postFunction(e) {
+                $.ajax({
+                    url: "@Url.Action("LikePost", "Home")",
+                    type: "POST",
+                    data: getFormData(e),
+                    dataType: "json",
+                    success: function (data) {
+                        $("#hh").click();
+                        $(document).on("click", "#hh", function () {
+                            alert(e);
+                            $("#" + e).text(data);
+                        });
+                    }
+                       ,
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            }
+
+
+                function getFormData(e) {
+                    //Convert the form data to a javascript object
+                    var dataToSubmit = {
+                        postId: e,
+
+                    };
+
+                    return dataToSubmit;
+                }
+
+
+</script>

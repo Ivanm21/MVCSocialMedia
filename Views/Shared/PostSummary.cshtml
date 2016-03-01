@@ -21,51 +21,20 @@
                 <label>@(Model.Content)</label>
             </div>
         </div>
-        <script type="text/javascript">
-
-
-            function postFunction() {
-                $.ajax({
-                    url: "@Url.Action("LikePost", "Home")",
-                    type: "POST",
-                    data: getFormData(),
-                    dataType: "json",
-                    success: $(document).on("change", "@Model.PostId/likes", function (data) {
-                                $(this).html(data);
-
-                                }),
-                    error: function () {
-                        alert("error");
-                    }
-                });
-            }
-
-
-                function getFormData() {
-                    //Convert the form data to a javascript object
-                    var dataToSubmit = {
-                        postId: "@Model.PostId",
-
-                    };
-
-                    return dataToSubmit;
-                }
-
-
-        </script>
+        
         
 
         <div class="row">
-            <div class="col-sm-4">
+            <div id="@Model.PostId div" class="col-sm-4">
                 @*@using (Html.BeginForm("LikePost", "Home", FormMethod.Post))
                 {
                     @Html.Hidden("returnUrl", Request.RawUrl)
                     @Html.Hidden("postId", Model.PostId)*@
                     @*@Html.Hidden("ownerId",post.wall.AppUserId)*@
-                <button id="@Model.PostId.ToString()/likeButton" class="btn btn-sm" value="Like" onclick="postFunction()">Like</button>
+                <button id="@Model.PostId.ToString()/likeButton" class="btn btn-sm" value="Like" onclick="postFunction('@Model.PostId')">Like</button>
                     @*<input type="submit" id="@Model.PostId.ToString() likeButton" class="btn btn-sm" value="Like" />*@
                 @*}*@
-                <label id="@Model.PostId/likes">@(Model.likes.Count)</label>
+                <label id="@Model.PostId">@(Model.likes.Count)</label>
             </div>
 
           
