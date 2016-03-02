@@ -110,7 +110,8 @@
         </div>
     }
 </div>
-
+<input type="hidden" id="LikeID" name="user" value="texens" />
+<input type="hidden" id="AjaxResponse" name="user" value="texens" />
 
     @foreach (var post in Model.Wall.posts)
     {
@@ -119,6 +120,11 @@
 
 <script type="text/javascript">
 
+            $(document).on("click", "#hh", function () {
+                var data = $("#AjaxResponse").val();
+                var elementId = $("#LikeID").val();
+                $("#" + elementId).text(data);
+            });
 
             function postFunction(e) {
                 $.ajax({
@@ -127,11 +133,9 @@
                     data: getFormData(e),
                     dataType: "json",
                     success: function (data) {
-                        $("#hh").click();
-                        $(document).on("click", "#hh", function () {
-                            alert(e);
-                            $("#" + e).text(data);
-                        });
+                        $("#AjaxResponse").val(data);
+                        $("#LikeID").val(e);
+                        $("#hh").click();   
                     }
                        ,
                     error: function () {
