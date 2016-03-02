@@ -131,35 +131,34 @@ namespace MVCSocialMedia.Controllers
          
         }
 
-        [HttpPost]
-        public RedirectResult DeletePost(Guid postId, string ownerId, string returnUrl)
+        
+        public JsonResult DeletePost(string postId)
         {
+            string result = "";
             if (postId != null)
             {
-                 repository.DeletePost(postId, ownerId);
-            }
-
-            if (!Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect("/");
+                result = repository.DeletePost(Guid.Parse(postId));
+                return Json(result);
             }
             else
             {
-                return Redirect(returnUrl);
+                result = "Fail";
+                return Json(result);
             }
-
+           
         }
 
        
         [ValidateInput(false)]
         public JsonResult LikePost(string postId)
          {
+            string postID = postId.Substring(0, postId.Length - 6);
             int likesCount = 0;
             if (postId != null)
             {
                 var userId = User.Identity.GetUserId();
-                repository.LikePost(Guid.Parse(postId), userId);
-                Post post = repository.GetPost(Guid.Parse(postId));
+                repository.LikePost(Guid.Parse(postID), userId);
+                Post post = repository.GetPost(Guid.Parse(postID));
                 likesCount = post.likes.Count;
             }
             

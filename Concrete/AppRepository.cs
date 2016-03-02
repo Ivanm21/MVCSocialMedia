@@ -80,15 +80,31 @@ namespace MVCSocialMedia.Concrete
             
         }
 
-        public void DeletePost(Guid postid, string ownerId)
+        public string DeletePost(Guid postid)
         {
-            var user =  FindUserById(ownerId);
-            var post = user.wall.posts.Where(x => x.PostId == postid).First();
-
+            
+            var post = context.Posts.Where(x => x.PostId == postid).First();
+            string result = "";
             if (post!= null)
             {
-                user.wall.posts.Remove(post);
-                var result =  userManager.Update(user);
+                try
+                {
+                    context.Posts.Remove(post);
+                    context.SaveChanges();
+                    result = "Success";
+                    return result;
+                }
+                catch(Exception e)
+                {
+                    result = e.Message;
+                    return result;
+                }
+                
+            }
+            else
+            {
+                result = "Fail";
+                return result;
             }
         }
 

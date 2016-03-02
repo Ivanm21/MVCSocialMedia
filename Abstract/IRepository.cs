@@ -22,7 +22,7 @@ namespace MVCSocialMedia.Abstract
         IdentityResult UpdateUser(UserModel info);
         void CreateUserWall(AppUser user);
         void AddPost(Post post);
-        void DeletePost(Guid postid, string ownerId);
+        string DeletePost(Guid postid);
         void LikePost(Guid postId, string userId);
         Post GetPost(Guid postId);
     }

@@ -1,6 +1,6 @@
 ﻿@model MVCSocialMedia.Entities.Post
 
-<div class="well-sm">
+<div class="well-sm" id="@Model.PostId">
     <div class="form-group">
         <div class="row">
             <div class="col-sm-4">
@@ -26,15 +26,10 @@
 
         <div class="row">
             <div id="@Model.PostId div" class="col-sm-4">
-                @*@using (Html.BeginForm("LikePost", "Home", FormMethod.Post))
-                {
-                    @Html.Hidden("returnUrl", Request.RawUrl)
-                    @Html.Hidden("postId", Model.PostId)*@
-                    @*@Html.Hidden("ownerId",post.wall.AppUserId)*@
-                <button id="@Model.PostId.ToString()/likeButton" class="btn btn-sm" value="Like" onclick="postFunction('@Model.PostId')">Like</button>
-                    @*<input type="submit" id="@Model.PostId.ToString() likeButton" class="btn btn-sm" value="Like" />*@
-                @*}*@
-                <label id="@Model.PostId">@(Model.likes.Count)</label>
+                
+                <button id="@Model.PostId.ToString()/likeButton" class="btn btn-sm" value="Like" onclick="likeFunction('@Model.PostId/likes')">Like</button>
+                   
+                <label id="@Model.PostId/likes">@(Model.likes.Count)</label>
             </div>
 
           
@@ -43,13 +38,8 @@
             @if (Model.author.Id == Session["userId"].ToString() || Model.wall.AppUserId == Session["userId"].ToString())
             {
                 <div class="col-sm-6">
-                    @using (Html.BeginForm("DeletePost", "Home", FormMethod.Post))
-                    {
-                        @Html.Hidden("returnUrl", Request.RawUrl)
-                        @Html.Hidden("postid", Model.PostId)
-                        @Html.Hidden("ownerId", Model.wall.AppUserId)
-                        <input class="btn btn-sm" type="submit" value="Delete" />
-                    }
+                    <button class="btn btn-sm" onclick="deleteFunction('@Model.PostId')">Delete</button>
+                   
 
                 </div>
 
